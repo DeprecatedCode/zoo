@@ -15,6 +15,8 @@ Each compiler produces exactly the same output files, so use the one that fits i
 
 Runtimes execute the `*.zo` files in your preferred programming environment, creating a consistent and reliable interface for common libraries across programming languages.
 
-![Zoo Node.js Runtime](http://yuml.me/diagram/plain/class/[*.zo]->[Node.js Zoo Runtime], [Node.js Zoo Runtime]->[Node.js], [*.js]->[Node.js])
-![Zoo Python Runtime](http://yuml.me/diagram/plain/class/[*.zo]->[Python Zoo Runtime], [Python Zoo Runtime]->[Python], [*.py]->[Python])
-![Zoo PHP Runtime](http://yuml.me/diagram/plain/class/[*.zo]->[PHP Zoo Runtime], [PHP Zoo Runtime]->[PHP], [*.php]->[PHP])
+![Zoo Node.js Runtime](http://yuml.me/diagram/plain;dir:LR/class/[*.zo]->[Node.js Zoo Runtime], [Node.js Zoo Runtime]->[Node.js], [*.js]->[Node.js])
+
+![Zoo Python Runtime](http://yuml.me/diagram/plain;dir:LR/class/[*.zo]->[Python Zoo Runtime], [Python Zoo Runtime]->[Python], [*.php]->[Python])
+
+![Zoo PHP Runtime](http://yuml.me/diagram/plain;dir:LR/class/[*.zo]->[PHP Zoo Runtime], [PHP Zoo Runtime]->[PHP], [*.php]->[PHP])
