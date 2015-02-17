@@ -1,0 +1,2 @@
+name: 'o'
+type: 'object'
