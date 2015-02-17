@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * PHP Compiler for Zoo
+ * @author Nate Ferrero
+ */
+
 namespace zoo;
 use \stdClass;
 
