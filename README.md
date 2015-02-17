@@ -17,6 +17,6 @@ Runtimes execute the `*.zo` files in your preferred programming environment, cre
 
 ![Zoo Node.js Runtime](http://yuml.me/diagram/plain;dir:LR/class/[*.zo]->[Node.js Zoo Runtime], [Node.js Zoo Runtime]->[Node.js], [*.js]->[Node.js])
 
-![Zoo Python Runtime](http://yuml.me/diagram/plain;dir:LR/class/[*.zo]->[Python Zoo Runtime], [Python Zoo Runtime]->[Python], [*.php]->[Python])
+![Zoo Python Runtime](http://yuml.me/diagram/plain;dir:LR/class/[*.zo]->[Python Zoo Runtime], [Python Zoo Runtime]->[Python], [*.py]->[Python])
 
 ![Zoo PHP Runtime](http://yuml.me/diagram/plain;dir:LR/class/[*.zo]->[PHP Zoo Runtime], [PHP Zoo Runtime]->[PHP], [*.php]->[PHP])
