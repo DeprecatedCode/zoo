@@ -1,10 +1,10 @@
-1112c Sample Blog Application
+1112l Sample Blog Application
 1120b
 1132s<h1>My Zoo Blog</h1>
 12323.
 12323iprint
 12323b
-1152c Configuration
+1152l Configuration
 1160b
 1160idir
 1160:
@@ -14,7 +14,7 @@
 1170:
 1187s.txt
 1180b
-21102c Regex to build a slug from an article title
+21102l Regex to build a slug from an article title
 21110b
 21110imake_slug
 21110:
@@ -39,7 +39,7 @@
 221438s
 221212e
 21140b
-21162c Save new post
+21162l Save new post
 21170b
 21181o
 21180b
@@ -113,7 +113,7 @@
 21181e
 21262$
 21262b
-21282c Delete a post
+21282l Delete a post
 21290b
 21301o
 21300b
@@ -165,7 +165,7 @@
 21301e
 21372$
 21372b
-21392c New post form
+21392l New post form
 21400b
 21400inew_post
 21400:
@@ -179,7 +179,7 @@
 &</form>
 &<hr/>
 21490b
-21512c Display existing post
+21512l Display existing post
 21520b
 21520?
 21520@
@@ -247,7 +247,7 @@
 225326e
 21622$
 21622b
-21642c List all posts
+21642l List all posts
 21650b
 21650*:
 21664o

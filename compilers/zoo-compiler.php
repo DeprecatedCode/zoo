@@ -6,6 +6,7 @@
  */
 
 namespace zoo;
+use \Exception;
 use \stdClass;
 
 /**
@@ -226,9 +227,8 @@ function process($current, $code, $line, $column) {
     $loc = strlen($line) . strlen($column) . $line . $column;
     switch($current->token) {
     case '#':
-    case '/*':
         $code = str_replace("\n", "\n&", $code);
-        echo "${loc}c$code\n";
+        echo "${loc}l$code\n";
         return;
     case "'":
     case '"':
@@ -247,7 +247,7 @@ function expr(&$current, $expr, $line, $column) {
     static $regex = array(
         '[+-]?(\d+(\.\d+)?([eE][+-]?\d+)?)'               => 'v',
         '\$?[a-zA-Z0-9_]+'                                => 'i',
-        '\:\:|\*\:|\:|\.\.|\.|\,|[^\sa-zA-Z0-9_.:,]{1,2}' => '',
+        '\:\:|\*\:|\:|\.\.|\.|\,|[^\sa-zA-Z0-9_.:,]{1,2}' => 'x',
         '[\n\r]+'                                         => 'b',
         '[ \t]+'                                          => ' '
     );

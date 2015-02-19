@@ -29,46 +29,76 @@ module.exports = function (context) {
         /**
          * Type
          */
-        type: function (a, b) {
-            if (a && Array.isArray(b)) {
-                if (!(a in zoo.types)) {
-                    zoo.types[a] = require('zoo-type-' + a);
-                }
-                return new zoo.types[a](b);
+        type: function (type, code, scope) {
+            if (!(type in zoo.types)) {
+                zoo.types[type] = require('zoo-type-' + type);
             }
-            if (a) {
-                if (a === void 0) {
-                    return 'undefined';
-                }
-                if (a === null) {
-                    return 'null';
-                }
-                if (typeof a === 'boolean') {
-                    return 'boolean';
-                }
-                if (typeof a === 'number') {
-                    return 'number';
-                }
-                if (typeof a === 'string') {
-                    return 'string';
-                }
-                if (!a.type) {
-                    throw new Error('Unknown value type');
-                }
-                return a.type;
+            if (Array.isArray(code)) {
+                var instance = new zoo.types[type](scope);
+                Object.defineProperty(instance, '#code', {
+                    enumerable: false,
+                    value: code
+                });
+                Object.defineProperty(instance, '#type', {
+                    enumerable: false,
+                    value: type
+                });
+                return instance;
+            }
+            else {
+                return zoo.types[type];
             }
         },
 
         /**
-         * Execute instructions of bytecode
+         * Get type name
+         */
+        typename: function (a) {
+            if (a === void 0) {
+                return 'undefined';
+            }
+            if (a === null) {
+                return 'null';
+            }
+            if (typeof a === 'boolean') {
+                return 'boolean';
+            }
+            if (typeof a === 'number') {
+                return 'number';
+            }
+            if (typeof a === 'string') {
+                return 'string';
+            }
+            if (!a['#type']) {
+                throw new Error('Unknown type name');
+            }
+            return a['#type'];
+        },
+
+        /**
+         * Execute instructions from string bytecode
          */
         execute: function (code) {
             var obj = zoo.type('object', zoo.load(code));
-            return obj.run();
+            return zoo.run(obj);
         },
 
         /**
-         * Parse instructions of bytecode
+         * Run a scoped object containing #code
+         */
+        run: function (scope) {
+            return zoo.type(zoo.typename(scope)).run(zoo, scope);
+        },
+
+        /**
+         * Evaluate a parsed bytecode expression in the context of a scope
+         */
+        expr: function (scope, code) {
+            return 'test';
+        },
+
+        /**
+         * Parse instructions of bytecode into tree structure
          */
         load: function (code) {
             if (typeof code === 'string') {
@@ -81,7 +111,8 @@ module.exports = function (context) {
             var clen;
             var sym;
             var data;
-            var source = [];
+            var root = [];
+            var source = root;
 
             for (var seq = 0; seq < code.length; seq++) {
                 /**
@@ -95,7 +126,7 @@ module.exports = function (context) {
                 data  = code[seq].substr(3 + llen + clen);
 
                 if (isNaN(line) || isNaN(col)) {
-                    return source;
+                    return root;
                 }
 
                 /**
@@ -106,10 +137,48 @@ module.exports = function (context) {
                     data += '\n' + code[seq].substr(1);
                 }
 
-                source.push([sym, data, line, col]);
+                /**
+                 * If we reach an 'e', go up the chain
+                 */
+                if (sym === 'e') {
+                    if (!source.parent) {
+                        throw new Error('Cannot go above top source level');
+                    }
+                    var child = source;
+                    source = source.parent;
+                    delete child.parent;
+                    continue;
+                }
+
+                var orig = source;
+
+                /**
+                 * If is nested type, group until 'e'
+                 */
+                if (sym === 'a' || sym === 'c' || sym === 'g' || sym === 'o') {
+                    source = data = [];
+                    source.parent = orig;
+                }
+
+                /**
+                 * Else if another known type
+                 */
+                else if (sym === 'b' || sym === 'i' || sym === 'l' || sym === 's' || sym === 'v') {
+
+                }
+
+                /**
+                 * Else this is an operator
+                 */
+                else {
+                    data = sym + data;
+                    sym = 'x';
+                }
+
+                orig.push([sym, data, line, col]);
             }
 
-            return source;
+            return root;
         }
     };
 
