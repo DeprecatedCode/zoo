@@ -202,38 +202,40 @@ function parse($code) {
 }
 
 function block($code, $line, $column) {
+    $loc = strlen($line) . strlen($column) . $line . $column;
     switch($code) {
     case '{':
-        echo "${line}.${column}o\n";
+        echo "${loc}o\n";
         break;
     case '[';
-        echo "${line}.${column}a\n";
+        echo "${loc}a\n";
         break;
     case '(';
-        echo "${line}.${column}g\n";
+        echo "${loc}g\n";
         break;
     case '/*';
-        echo "${line}.${column}c\n";
+        echo "${loc}c\n";
         break;
     default:
         return '';
     }
-    return "${line}.${column}e\n";
+    return "${loc}e\n";
 }
 
 function process($current, $code, $line, $column) {
+    $loc = strlen($line) . strlen($column) . $line . $column;
     switch($current->token) {
     case '#':
     case '/*':
         $code = str_replace("\n", "\n&", $code);
-        echo "${line}.${column}c$code\n";
+        echo "${loc}c$code\n";
         return;
     case "'":
     case '"':
     case "'''":
     case '"""':
         $code = str_replace("\n", "\n&", str_replace("'", "\\'", str_replace('\\', '\\\\', $code)));
-        echo "${line}.${column}s$code\n";
+        echo "${loc}s$code\n";
         return;
     default:
         expr($current, $code, $line, $column);
@@ -241,6 +243,7 @@ function process($current, $code, $line, $column) {
 }
 
 function expr(&$current, $expr, $line, $column) {
+    $loc = strlen($line) . strlen($column) . $line . $column;
     static $regex = array(
         '[+-]?(\d+(\.\d+)?([eE][+-]?\d+)?)'               => 'v',
         '\$?[a-zA-Z0-9_]+'                                => 'i',
@@ -267,7 +270,7 @@ function expr(&$current, $expr, $line, $column) {
                     $value = $str;
                 }
                 if ($type !== ' ') {
-                    echo "${line}.${column}$type$value\n";
+                    echo "${loc}$type$value\n";
                 }
 
                 /**
