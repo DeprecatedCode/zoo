@@ -31,7 +31,7 @@ module.exports = function (context) {
          */
         type: function (type, code, scope) {
             if (!(type in zoo.types)) {
-                zoo.types[type] = require('zoo-type-' + type);
+                zoo.types[type] = require('zoo-' + type);
             }
             if (Array.isArray(code)) {
                 var instance = new zoo.types[type](scope);
